@@ -1,0 +1,4 @@
+<form hx-post="http://127.0.0.1:5000/update_note"  hx-vals='{"note_id": {{ note.note_id }}}' hx-swap="innerHTML">
+  <textarea name="note">{{ note.content }}</textarea>
+  <button type="submit">💾 Save</button>
+</form>

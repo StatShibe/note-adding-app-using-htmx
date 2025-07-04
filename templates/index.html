@@ -1,0 +1,45 @@
+{% if not is_htmx %}
+    {% extends "base.html" %}
+{% endif %}
+
+{% block content %}
+    <h1>Welcome Home!</h1>
+    <p>This is the home page content.</p>
+
+    <table border="1">
+  <tr>
+    <th>ID</th>
+    <th>User</th>
+    <th>Content</th>
+    <th>Time</th>
+    <th>Action</th>
+  </tr>
+  {% for note in notes %}
+  <tr>
+    <td>{{ note['note_id'] }}</td>
+    <td>{{ note['owner_username'] }}</td>
+    <td id="content_{{ note.note_id }}">{{ note['content'] }}</td>
+    <td>{{ note['posted_at_time'] }}</td>
+    <td>
+      <button 
+        hx-get="http://127.0.0.1:5000/update_note" 
+        hx-vals='{"note_id": {{ note.note_id }}}' 
+        hx-target="#content_{{ note.note_id }}" 
+        hx-swap="innerHTML">
+        ✏️ Edit
+      </button>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+    <div>
+    <h1>Add Note</h1>
+    <div>
+        <form hx-post="/add_note" hx-target="#result" hx-swap="innerHTML">
+            <textarea name="note" placeholder="Enter the text" required></textarea><br><br/>
+            <button type="submit">Add Note</button>
+        </form>
+    </div>
+    <div id="result" style="color:red; margin-top:10px;"></div>
+</div>
+{% endblock  %}

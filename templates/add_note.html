@@ -1,0 +1,16 @@
+{% if not is_htmx %}
+    {% extends "base.html" %}
+{% endif %}
+
+{% block content %}
+<div>
+    <h1>Add Note</h1>
+    <div>
+        <form hx-post="/add_note" hx-target="#result" hx-swap="innerHTML">
+            <textarea name="note" placeholder="Enter the text" required></textarea><br><br/>
+            <button type="submit">Add Note</button>
+        </form>
+    </div>
+    <div id="result" style="color:red; margin-top:10px;"></div>
+</div>
+{% endblock %}

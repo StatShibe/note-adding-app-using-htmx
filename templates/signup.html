@@ -1,0 +1,26 @@
+{% if not is_htmx %}
+    {% extends "base.html" %}
+{% endif %}
+
+{% block content %}
+<div>
+    <h1>Sign In Here</h1>
+    <div>
+        <form hx-post = "http://127.0.0.1:5000/signup">
+            <label>
+                Email : 
+            </label>
+            <input type = "email" name = "email"/> <br/><br/>
+            <label>
+                Password :
+            </label>
+            <input type = "password" name = "password"/> <br/><br/>
+                 <label>
+                Confirm Password :
+            </label>
+            <input type = "password" name = "re_password"/> <br/><br/>
+            <input type = "submit" value = "Sign Ups"/>
+        </form>
+    </div>
+</div>
+{% endblock %}
