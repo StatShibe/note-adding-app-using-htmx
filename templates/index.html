@@ -3,8 +3,21 @@
 {% endif %}
 
 {% block content %}
-    <h1>Welcome Home!</h1>
-    <p>This is the home page content.</p>
+    <div>
+        <h1>Welcome Home!</h1>
+        <p>This is the home page content.</p>
+    </div>
+
+    <div>
+        <h1>Add Note</h1>
+        <div>
+            <form hx-post="/add_note" hx-target="#result" hx-swap="innerHTML">
+                <textarea name="note" placeholder="Enter the text" required></textarea><br><br/>
+                <button type="submit">Add Note</button>
+            </form>
+        </div>
+        <div id="result" style="color:red; margin-top:10px;"></div>
+    </div>
 
     <table border="1">
   <tr>
@@ -28,18 +41,14 @@
         hx-swap="innerHTML">
         ✏️ Edit
       </button>
+      <button
+  hx-delete="/delete_note?note_id={{ note.note_id }}"
+  hx-target="closest tr"
+  hx-swap="outerHTML">
+  Delete
+</button>
     </td>
   </tr>
   {% endfor %}
 </table>
-    <div>
-    <h1>Add Note</h1>
-    <div>
-        <form hx-post="/add_note" hx-target="#result" hx-swap="innerHTML">
-            <textarea name="note" placeholder="Enter the text" required></textarea><br><br/>
-            <button type="submit">Add Note</button>
-        </form>
-    </div>
-    <div id="result" style="color:red; margin-top:10px;"></div>
-</div>
 {% endblock  %}

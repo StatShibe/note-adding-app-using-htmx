@@ -46,10 +46,15 @@ def token_required(f):
 @app.route('/')
 def index():
     conn = get_db_connection()
-    notes = conn.execute("SELECT * FROM notes").fetchall()
-    conn.close()
-    is_htmx = request.headers.get('HX-Request') is not None
-    return render_template("index.html", is_htmx = is_htmx, notes = notes)
+    token = request.cookies.get('token')
+    if not token:
+        return redirect('/login')
+    else:
+        data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+        notes = conn.execute("SELECT * FROM notes WHERE owner_username = (?)",(data['user'],)).fetchall()
+        conn.close()
+        is_htmx = request.headers.get('HX-Request') is not None
+        return render_template("index.html", is_htmx = is_htmx, notes = notes)
 
 #============================================================================
 
@@ -63,11 +68,11 @@ def login_page():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
-
-        print(type(app.config['SECRET_KEY']))
-
-        # Dummy user check
-        if username == 'admin' and password == 'pass':
+        conn = get_db_connection()
+        user_details = conn.execute("SELECT * FROM login_details WHERE username = (?)",(username,)).fetchone()
+        if user_details is None:
+            return jsonify({'message' : 'User not Found'}),401
+        elif(username == user_details['username'] and password == user_details['password']):
             token = jwt.encode({
                 'user': username,
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
@@ -75,9 +80,11 @@ def login_page():
 
             resp = make_response(jsonify({'message': 'Logged in'}))
             resp.set_cookie('token', token, httponly=True)
+            resp.headers['HX-Redirect'] = url_for('index')
             return resp
-
-        return jsonify({'message': 'Invalid Credentials'}), 401
+        else:
+            return jsonify({'message' : 'Password does not match'}), 401
+    
 
     is_htmx = request.headers.get('HX-Request') is not None
     return render_template("login.html", is_htmx = is_htmx)
@@ -174,6 +181,19 @@ def update_note():
         resp.headers['HX-Redirect'] = url_for('index')
         return resp
 
+@app.route('/delete_note', methods = ['DELETE'])
+@token_required
+def delete_note():
+    if request.method == 'DELETE':
+        conn = get_db_connection()
+        note_id = request.args.get('note_id')
+        conn.execute("DELETE FROM notes WHERE note_id = (?)", (note_id))
+        #conn.execute("DELETE FROM notes WHERE note_id = 4")
+        conn.commit()
+        conn.close()
+        resp = make_response(jsonify({'message' : 'Note Deleted Successfully'}), 200)
+        resp.headers['HX-Redirect'] = url_for('index')
+        return resp
 
 
 if __name__ == '__main__':

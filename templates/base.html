@@ -4,15 +4,17 @@
     <meta charset="UTF-8">
     <title>HTMX Navigation Demo</title>
     <script src="static/htmx/htmx.min.js"></script>
+    <link rel="stylesheet" href="../static/css/global.css">
 </head>
 <body>
 
-    <nav style="margin-bottom: 20px;">
-        <button hx-get="http://127.0.0.1:5000/" hx-target="#content" hx-push-url="true" hx-swap="innerHTML">Home</button>
-        <button hx-get="http://127.0.0.1:5000/login" hx-target="#content" hx-push-url="true" hx-swap="innerHTML">Login</button>
-        <button hx-get="http://127.0.0.1:5000/signup" hx-target="#content" hx-push-url="true" hx-swap="innerHTML">Sign Up</button>
-        <button hx-get="http://127.0.0.1:5000/add_note" hx-target="#content" hx-push-url="true" hx-swap="innerHTML">Add Note</button>
-        <button hx-get="http://127.0.0.1:5000/logout">Logout</button>
+    <nav class = "main-nav">
+        <div class = "nav-div">
+            <button class = "nav-btn" hx-get="http://127.0.0.1:5000/" hx-target="#content" hx-push-url="true" hx-swap="innerHTML">Home</button>
+            <button class = "nav-btn" hx-get="http://127.0.0.1:5000/login" hx-target="#content" hx-push-url="true" hx-swap="innerHTML">Login</button>
+            <button class = "nav-btn" hx-get="http://127.0.0.1:5000/signup" hx-target="#content" hx-push-url="true" hx-swap="innerHTML">Sign Up</button>
+            <button class = "nav-btn" hx-get="http://127.0.0.1:5000/logout">Logout</button>
+        </div>
     </nav>
 
     <div id="content">
