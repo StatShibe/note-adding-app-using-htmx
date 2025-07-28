@@ -2,14 +2,17 @@
     {% extends "base.html" %}
 {% endif %}
 
+{% block extra_css %}
+    <link rel = "stylesheet" href = "../static/css/indexpage.css" >
+{% endblock %}
+
 {% block content %}
-    <div>
-        <h1>Welcome Home!</h1>
-        <p>This is the home page content.</p>
+    <div class = 'welcome-div'>
+        <h1>Welcome {{ user }}</h1>
     </div>
 
-    <div>
-        <h1>Add Note</h1>
+    <div class = 'noteadd-div'>
+        <h2>Add Note</h2>
         <div>
             <form hx-post="/add_note" hx-target="#result" hx-swap="innerHTML">
                 <textarea name="note" placeholder="Enter the text" required></textarea><br><br/>
@@ -18,37 +21,37 @@
         </div>
         <div id="result" style="color:red; margin-top:10px;"></div>
     </div>
-
-    <table border="1">
-  <tr>
-    <th>ID</th>
-    <th>User</th>
-    <th>Content</th>
-    <th>Time</th>
-    <th>Action</th>
-  </tr>
-  {% for note in notes %}
-  <tr>
-    <td>{{ note['note_id'] }}</td>
-    <td>{{ note['owner_username'] }}</td>
-    <td id="content_{{ note.note_id }}">{{ note['content'] }}</td>
-    <td>{{ note['posted_at_time'] }}</td>
-    <td>
-      <button 
-        hx-get="http://127.0.0.1:5000/update_note" 
-        hx-vals='{"note_id": {{ note.note_id }}}' 
-        hx-target="#content_{{ note.note_id }}" 
-        hx-swap="innerHTML">
-        ✏️ Edit
-      </button>
-      <button
-  hx-delete="/delete_note?note_id={{ note.note_id }}"
-  hx-target="closest tr"
-  hx-swap="outerHTML">
-  Delete
-</button>
-    </td>
-  </tr>
-  {% endfor %}
-</table>
+    </br></br>
+    <table class = "home-table">
+        <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Content</th>
+            <th>Time</th>
+            <th>Action</th>
+        </tr>
+        {% for note in notes %}
+        <tr>
+            <td>{{ note['note_id'] }}</td>
+            <td>{{ note['owner_username'] }}</td>
+            <td id="content_{{ note.note_id }}">{{ note['content'] }}</td>
+            <td>{{ note['posted_at_time'] }}</td>
+            <td>
+                <button 
+                    hx-get="http://127.0.0.1:5000/update_note" 
+                    hx-vals='{"note_id": {{ note.note_id }}}' 
+                    hx-target="#content_{{ note.note_id }}" 
+                    hx-swap="innerHTML">
+                    ✏️ Edit
+                </button>
+                <button
+                    hx-delete="/delete_note?note_id={{ note.note_id }}"
+                    hx-target="closest tr"
+                    hx-swap="outerHTML">
+                    Delete
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
 {% endblock  %}

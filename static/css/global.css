@@ -1,6 +1,7 @@
 body {
     height : 100vh;
     width : 100%;  
+    margin : 0px;
 }
 
 .main-nav {
@@ -10,7 +11,6 @@ body {
   display: flex;
   flex-direction: row; /* horizontal layout */
   align-items: center; /* vertical centering */
-  padding-left: 10px;  /* optional spacing */
 }
 
 
@@ -25,3 +25,14 @@ body {
     width : 70px;
     margin : 5px;
 }
+
+#content {
+    margin : 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100vw;
+    height : 75vh;
+    overflow: hidden;
+}
+

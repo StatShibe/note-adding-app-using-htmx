@@ -2,25 +2,31 @@
     {% extends "base.html" %}
 {% endif %}
 
+{% block extra_css %}
+    <link rel = "stylesheet" href = "../static/css/signuppage.css" >
+{% endblock %}
+
 {% block content %}
-<div>
-    <h1>Sign In Here</h1>
-    <div>
-        <form hx-post = "http://127.0.0.1:5000/signup">
-            <label>
-                Email : 
-            </label>
-            <input type = "email" name = "email"/> <br/><br/>
-            <label>
-                Password :
-            </label>
-            <input type = "password" name = "password"/> <br/><br/>
-                 <label>
-                Confirm Password :
-            </label>
-            <input type = "password" name = "re_password"/> <br/><br/>
-            <input type = "submit" value = "Sign Ups"/>
-        </form>
+<div class = "signup-div">
+    <div class = "signup-form">
+        <h1>Sign In Here</h1>
+        <div>
+            <form hx-post = "http://127.0.0.1:5000/signup">
+                <label>
+                    Email
+                </label></br>
+                <input type = "email" name = "email"/> <br/><br/>
+                <label>
+                    Password
+                </label></br>
+                <input type = "password" name = "password"/> <br/><br/>
+                <label>
+                    Confirm Password
+                </label></br>
+                <input type = "password" name = "re_password"/> <br/><br/>
+                <input type = "submit" value = "Sign Up"/>
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}

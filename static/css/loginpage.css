@@ -1,0 +1,48 @@
+.login-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height : fit-content;
+    width: 100vw;
+}
+
+.login-form {
+    text-align: center;
+    border-style: solid;
+    border-color: red;
+    border-radius: 10px;
+    height : fit-content;
+    padding: 15px;
+    width: 25vw;
+}
+
+.submit-btn {
+    background-color : aliceblue;
+    transition: transform 0.1s ease , background-color 0.1s ease;
+    border-radius: 5px;
+    border : solid;
+    border-color: black;
+    padding : 5px;
+}
+
+.submit-btn:hover {
+    transform : scale(1.5);
+    background-color: greenyellow;
+}
+
+.username-div{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.password-div{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+input {
+    height : 30px;
+    width : 230px;
+}
